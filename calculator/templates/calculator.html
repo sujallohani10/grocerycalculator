@@ -79,23 +79,24 @@
                 $(this).parent().parent('div').remove();
                 count--;
             });
-        });
 
-        //amount validation
-        $(".amount").change(function () {
-              let amount = $(this).val();
-              $.ajax({
-                  type: 'POST',
-                  url: '{% url "validate_amount" %}',
-                  data: {'amount': amount, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                  dataType: 'json',
-                  success: function (response) {
-                      if(response.type) {
-                          $(".message-warning").html(response.message).fadeIn().delay(3000).fadeOut();
-                          $(".message-warning").show();
+            //amount validation
+            $(document).on('change', '.amount',function () {
+                  let amount = $(this).val();
+                  $.ajax({
+                      type: 'POST',
+                      url: '{% url "validate_amount" %}',
+                      data: {'amount': amount, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                      dataType: 'json',
+                      success: function (response) {
+                          if(response.type) {
+                              $(".message-warning").html(response.message).fadeIn().delay(3000).fadeOut();
+                              $(".message-warning").show();
+                          }
                       }
-                  }
-              });
+                  });
+            });
+
         });
 
         //calculate data using ajax
